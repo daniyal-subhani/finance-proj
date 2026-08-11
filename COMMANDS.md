@@ -131,12 +131,53 @@ Make sure they are included in `.gitignore`.
 
 ---
 
+# Drizzle ORM
+
+## Install pkgs - Dependencies
+
+```bash
+bun add drizzle-orm@rc pg dotenv
+```
+
+## Dev Dependencies
+
+```bash
+bun add -D drizzle-kit@rc tsx @types/pg
+```
+
+## Setup connection variables
+
+```bash
+DATABASE_URL=
+```
+
+## Initialization:
+
+```bash
+db/
+  |--- index.ts ,
+  |--- schema.ts
+```
+
+```bash
+in-root: drizzle.config.ts
+```
+
+## Commands:
+
+```bash
+add in package.json: {
+}
+```
+
+---
+
 # 🗄️ Database
 
 ## Database Setup
 
 ```bash
-# Add database setup commands here
+
 ```
 
 ## Generate Database Client

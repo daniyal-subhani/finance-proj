@@ -8,11 +8,11 @@ Yeh guide aapko batayegi ke step-by-step tareeqey se project ko kaise banana hai
 
 - **Kaam:** Next.js project create karna, Tailwind CSS aur Shadcn UI configure karna.
 - **Commands:**
-  - `pnpm create next-app finance-proj`
-  - `pnpm dlx shadcn@latest init`
+  - `bun create next-app finance-proj`
+  - `bun dlx shadcn@latest init`
 - **Resources to Use:**
   - _Shadcn UI Docs_ (`ui.shadcn.com`) buttons, dialogs, tables, aur inputs ke liye.
-  - _Lucide React_ (`lucide.dev`) icons ke liye (`pnpm add lucide-react`).
+  - _Lucide React_ (`lucide.dev`) icons ke liye (`bun add lucide-react`).
 
 ---
 
@@ -30,7 +30,7 @@ Yeh guide aapko batayegi ke step-by-step tareeqey se project ko kaise banana hai
 - **Kaam:** Serverless PostgreSQL database connect karna aur Drizzle ORM ke zariye tables (`accounts`, `categories`, `transactions`) define karna.
 - **Resources to Use:**
   - _Neon Console_ (`neon.tech`) free PostgreSQL database ke liye.
-  - _Drizzle ORM Docs_ (`orm.drizzle.team`) schema definition aur migration commands ke liye (`pnpm add drizzle-orm dotenv`, `pnpm add -D drizzle-kit`).
+  - _Drizzle ORM Docs_ (`orm.drizzle.team`) schema definition aur migration commands ke liye (`bun add drizzle-orm dotenv`, `bun add -D drizzle-kit`).
 
 ---
 
@@ -65,7 +65,7 @@ Yeh guide aapko batayegi ke step-by-step tareeqey se project ko kaise banana hai
 
 - **Kaam:** Dashboard ke liye `/api/summary` banana jo total balance, income, aur expenses calculate kare. Recharts ke zariye visual graphs dikhana.
 - **Resources to Use:**
-  - _Recharts_ (`recharts.org`) Area charts, Bar charts, aur Pie charts ke liye (`pnpm add recharts`).
+  - _Recharts_ (`recharts.org`) Area charts, Bar charts, aur Pie charts ke liye (`bun add recharts`).
   - _Tremor_ (`tremor.so`) agar pre-built financial dashboard components chahiye hon.
 
 ---
