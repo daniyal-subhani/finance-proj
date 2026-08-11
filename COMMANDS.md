@@ -166,8 +166,12 @@ in-root: drizzle.config.ts
 ## Commands:
 
 ```bash
-add in package.json: {
-}
+add in package.json: [
+"db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push ",
+    "db:studio": "drizzle-kit studio"
+    ]
 ```
 
 ---
@@ -177,25 +181,25 @@ add in package.json: {
 ## Database Setup
 
 ```bash
-
+npm install @neondatabase/serverless
 ```
 
 ## Generate Database Client
 
 ```bash
-# Add command here
+"db:generate": "drizzle-kit generate",
 ```
 
 ## Run Database Migration
 
 ```bash
-# Add command here
+    "db:migrate": "drizzle-kit migrate",
 ```
 
-## Reset Database
+## Push Database
 
 ```bash
-# Add command here
+ "db:push": "drizzle-kit push ",
 ```
 
 ---
