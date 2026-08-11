@@ -1,7 +1,7 @@
 {
   "type": "excalidraw",
   "version": 2,
-  "source": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor",
+  "source": "https://excalidraw.com",
   "elements": [
     {
       "id": "VzZK4PPJwCG9DjilaPQaJ",
@@ -167,7 +167,8 @@
         "fixedPoint": [
           0.4586020300948612,
           1.033222824209691
-        ]
+        ],
+        "mode": "orbit"
       },
       "endBinding": {
         "elementId": "gqKYBYMzfvli2JvdxsshD",
@@ -176,7 +177,8 @@
         "fixedPoint": [
           0.35507653493899644,
           -0.028278034851466932
-        ]
+        ],
+        "mode": "orbit"
       },
       "startArrowhead": null,
       "endArrowhead": "arrow",
@@ -310,7 +312,8 @@
           1.0269403229632736
         ],
         "focus": 0,
-        "gap": 0
+        "gap": 0,
+        "mode": "orbit"
       },
       "endBinding": {
         "elementId": "GdlAc0L2VsMpvATGpgfiI",
@@ -319,7 +322,8 @@
         "fixedPoint": [
           0.35507653493899644,
           -0.028278034851466932
-        ]
+        ],
+        "mode": "orbit"
       },
       "startArrowhead": null,
       "endArrowhead": "arrow",
@@ -423,7 +427,7 @@
       "version": 22,
       "versionNonce": 1111719211,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1786480964359,
       "link": null,
       "locked": false,
@@ -499,7 +503,7 @@
       "version": 21,
       "versionNonce": 222645355,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1786480983998,
       "link": null,
       "locked": false,
@@ -649,7 +653,7 @@
       "version": 131,
       "versionNonce": 882585739,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1786481017714,
       "link": null,
       "locked": false,
@@ -679,7 +683,8 @@
         "fixedPoint": [
           0.517934747581069,
           1.029569728468203
-        ]
+        ],
+        "mode": "orbit"
       },
       "endBinding": {
         "elementId": "Dehj9Bj-k9QoFoeHYWIWD",
@@ -688,7 +693,8 @@
         "fixedPoint": [
           0.2765362892759287,
           -0.28431342629825285
-        ]
+        ],
+        "mode": "orbit"
       },
       "startArrowhead": null,
       "endArrowhead": "arrow",
@@ -720,7 +726,7 @@
       "version": 36,
       "versionNonce": 943080363,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1786481027350,
       "link": null,
       "locked": false,
@@ -750,7 +756,8 @@
           1.2352941176470604
         ],
         "focus": 0,
-        "gap": 0
+        "gap": 0,
+        "mode": "orbit"
       },
       "endBinding": {
         "elementId": "rjuWSeZMnyUNalYDW10tO",
@@ -759,7 +766,8 @@
           -0.03869029453822552
         ],
         "focus": 0,
-        "gap": 0
+        "gap": 0,
+        "mode": "orbit"
       },
       "startArrowhead": null,
       "endArrowhead": "arrow",
@@ -791,7 +799,7 @@
       "version": 25,
       "versionNonce": 1064121989,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1786481033344,
       "link": null,
       "locked": false,
@@ -821,7 +829,8 @@
           0.4994675178571427
         ],
         "focus": 0,
-        "gap": 0
+        "gap": 0,
+        "mode": "orbit"
       },
       "endBinding": {
         "elementId": "rjuWSeZMnyUNalYDW10tO",
@@ -830,7 +839,8 @@
           0.2886905670166012
         ],
         "focus": 0,
-        "gap": 0
+        "gap": 0,
+        "mode": "orbit"
       },
       "startArrowhead": null,
       "endArrowhead": "arrow",
@@ -862,7 +872,7 @@
       "version": 45,
       "versionNonce": 1854037419,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1786481093011,
       "link": null,
       "locked": false,
@@ -892,7 +902,8 @@
           1.0266241071428572
         ],
         "focus": 0,
-        "gap": 0
+        "gap": 0,
+        "mode": "orbit"
       },
       "endBinding": {
         "elementId": "PSfg9l8Ku0Zetoegj5ZTN",
@@ -901,7 +912,8 @@
           -0.09016363917434378
         ],
         "focus": 0,
-        "gap": 0
+        "gap": 0,
+        "mode": "orbit"
       },
       "startArrowhead": null,
       "endArrowhead": "arrow",
@@ -933,7 +945,7 @@
       "version": 32,
       "versionNonce": 443117419,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1786481072501,
       "link": null,
       "locked": false,
@@ -970,7 +982,7 @@
       "version": 9,
       "versionNonce": 1918191691,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1786481077940,
       "link": null,
       "locked": false,
@@ -1007,7 +1019,7 @@
       "version": 18,
       "versionNonce": 156292299,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1786481085325,
       "link": null,
       "locked": false,
@@ -1025,7 +1037,7 @@
       "id": "ihIzl3dvk4P6C_77KlnXN",
       "type": "rectangle",
       "x": 2915.7271934982773,
-      "y": 112.09183966341823,
+      "y": 122.30156778692503,
       "width": 517.2202820503408,
       "height": 190.65417752488844,
       "angle": 0,
@@ -1043,11 +1055,41 @@
         "type": 3
       },
       "seed": 48089413,
-      "version": 59,
-      "versionNonce": 1361179051,
+      "version": 66,
+      "versionNonce": 948046135,
       "isDeleted": false,
-      "boundElements": null,
-      "updated": 1786481109255,
+      "boundElements": [],
+      "updated": 1786481326623,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "70bPUlWeufQnPCZx8xOVp",
+      "type": "rectangle",
+      "x": 4322.698358040414,
+      "y": 141.20516931220845,
+      "width": 517.2202820503408,
+      "height": 190.65417752488844,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aMV",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 2058427127,
+      "version": 158,
+      "versionNonce": 571166777,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1786481329421,
       "link": null,
       "locked": false
     },
@@ -1071,11 +1113,11 @@
       "index": "aN",
       "roundness": null,
       "seed": 118211307,
-      "version": 59,
-      "versionNonce": 1766455403,
+      "version": 61,
+      "versionNonce": 258443705,
       "isDeleted": false,
-      "boundElements": null,
-      "updated": 1786481119052,
+      "boundElements": [],
+      "updated": 1786481326623,
       "link": null,
       "locked": false,
       "text": "Mannual auth",
@@ -1085,6 +1127,43 @@
       "verticalAlign": "top",
       "containerId": null,
       "originalText": "Mannual auth",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "E1369MnNgUiOG987NL_oP",
+      "type": "text",
+      "x": 4407.643285412501,
+      "y": 214.9965288335615,
+      "width": 269.7479248046875,
+      "height": 66.37674172830792,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aNV",
+      "roundness": null,
+      "seed": 414938105,
+      "version": 164,
+      "versionNonce": 1194705913,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1786481338351,
+      "link": null,
+      "locked": false,
+      "text": "Clerk Auth",
+      "fontSize": 53.101393382646336,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Clerk Auth",
       "autoResize": true,
       "lineHeight": 1.25
     },
@@ -1110,20 +1189,192 @@
         "type": 3
       },
       "seed": 1618024875,
-      "version": 117,
-      "versionNonce": 1868266053,
+      "version": 119,
+      "versionNonce": 603572823,
       "isDeleted": false,
-      "boundElements": null,
-      "updated": 1786481125484,
+      "boundElements": [],
+      "updated": 1786481326623,
       "link": null,
       "locked": false
+    },
+    {
+      "id": "RQ_9rF9N6PtTj8z6B1zuO",
+      "type": "rectangle",
+      "x": 4186.786474245075,
+      "y": 89.4668172298853,
+      "width": 1060.8678172316977,
+      "height": 1327.028632869462,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aOV",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 2044765207,
+      "version": 211,
+      "versionNonce": 1327322617,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1786481329421,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "dHjEv53uvmOSMVGq0GMvv",
+      "type": "text",
+      "x": 3018.6189203384106,
+      "y": 425.5980170799244,
+      "width": 381.61151689354784,
+      "height": 847.7365469734434,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aP",
+      "roundness": null,
+      "seed": 1855529657,
+      "version": 94,
+      "versionNonce": 153086617,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1786481326623,
+      "link": null,
+      "locked": false,
+      "text": "Signup\n ↓\nemail/password\n ↓\nvalidate\n ↓\nhash password\n ↓\nDB mein user\n ↓\nsession/token\n ↓\nlogin",
+      "fontSize": 52.16840289067344,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Signup\n ↓\nemail/password\n ↓\nvalidate\n ↓\nhash password\n ↓\nDB mein user\n ↓\nsession/token\n ↓\nlogin",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "KHMUy_Gvih-lpnpDhZssX",
+      "type": "text",
+      "x": 4425.590084880547,
+      "y": 444.5016186052078,
+      "width": 495.57208251953125,
+      "height": 586.8945325200762,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aQ",
+      "roundness": null,
+      "seed": 217877721,
+      "version": 188,
+      "versionNonce": 946409623,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1786481346472,
+      "link": null,
+      "locked": false,
+      "text": "Signup/Login\n ↓\nClerk\n ↓\nClerk user created\n ↓\nClerk session\n ↓\nUser authenticated",
+      "fontSize": 52.16840289067344,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Signup/Login\n ↓\nClerk\n ↓\nClerk user created\n ↓\nClerk session\n ↓\nUser authenticated",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "4Ni3Hl57Gh6ACs8660M6U",
+      "type": "rectangle",
+      "x": 5792.408296198528,
+      "y": 35.94850396118045,
+      "width": 2892.319611677037,
+      "height": 2564.235490434554,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aR",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 1161176055,
+      "version": 127,
+      "versionNonce": 147454521,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1786481464457,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "XOnkKvnWgzT2I4W-707V4",
+      "type": "text",
+      "x": 6054.718484852296,
+      "y": 321.31433007745795,
+      "width": 2305.713123126615,
+      "height": 1743.7152020757142,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aS",
+      "roundness": null,
+      "seed": 175936121,
+      "version": 784,
+      "versionNonce": 2018238583,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1786481518113,
+      "link": null,
+      "locked": false,
+      "text": "                     ┌──────────┐\n                     │  Clerk   │\n                     └────┬─────┘\n                          │\n                 Authentication\n                          │\n                     clerkUserId\n                          │\n                          ▼\n┌───────────┐      ┌─────────────┐\n│ Next.js   │─────▶│ users       │\n│ Server    │      │             │\n└───────────┘      │ id          │\n                   │ clerkUserId │\n                   └──────┬──────┘\n                          │\n              ┌───────────┼───────────┐\n              ▼           ▼           ▼\n          accounts    categories   budgets\n              │\n              ▼\n        transactions",
+      "fontSize": 63.40782553002597,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "                     ┌──────────┐\n                     │  Clerk   │\n                     └────┬─────┘\n                          │\n                 Authentication\n                          │\n                     clerkUserId\n                          │\n                          ▼\n┌───────────┐      ┌─────────────┐\n│ Next.js   │─────▶│ users       │\n│ Server    │      │             │\n└───────────┘      │ id          │\n                   │ clerkUserId │\n                   └──────┬──────┘\n                          │\n              ┌───────────┼───────────┐\n              ▼           ▼           ▼\n          accounts    categories   budgets\n              │\n              ▼\n        transactions",
+      "autoResize": false,
+      "lineHeight": 1.25
     }
   ],
   "appState": {
     "gridSize": 20,
     "gridStep": 5,
     "gridModeEnabled": false,
-    "viewBackgroundColor": "#ffffff"
+    "viewBackgroundColor": "#ffffff",
+    "lockedMultiSelections": {}
   },
   "files": {}
 }
