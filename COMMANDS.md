@@ -436,6 +436,45 @@ bun run start
 
 ---
 
+## Setup clerk webhooks - events
+
+```bash
+Normal API Cycle - Browser  (POST /api/trancactions) --> Your Next.js API --> Database,
+``bash
+Tum Request bhejte hoo --> server response kerta hai
+``
+```
+
+## Webhook
+
+### |==> Web hook iska ulta concept hai:
+
+```bash
+"Jab mere system mein koi important event ho, main tumhare server ko HTTP request bhej dunga."
+```
+
+## Event - system mein koi important cheez hona.
+
+```bash
+user.created
+user.updated
+user.deleted
+```
+
+```bash
+bun add svix
+bun add @clerk/backend
+```
+
+```bash
+CLERK_WEBHOOK_SECRET=whsec_xxxxxxxxx - get from clerk dashboard - webhook
+app/api/webhooks/clerk/route.ts - create webhook
+add url into webhook in clerk dashboard , and enable events
+
+```
+
+---
+
 # 📚 Documentation
 
 Project documentation:
