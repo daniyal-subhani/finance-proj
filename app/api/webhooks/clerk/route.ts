@@ -1,7 +1,7 @@
 import { db } from '@/db';
 import { users } from '@/db/schema';
 import { Webhook } from 'svix';
-import { env } from './config/env';
+import { env } from '../../../../config/env';
 
 export async function POSt(req: Request) {
   // web hook secret
