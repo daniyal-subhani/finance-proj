@@ -2,6 +2,7 @@ import { db } from '@/db';
 import { users } from '@/db/schema';
 import { Webhook } from 'svix';
 import { env } from '../../../../config/env';
+import type { WebhookEvent } from '@clerk/backend';
 
 export async function POSt(req: Request) {
   // web hook secret
@@ -27,14 +28,14 @@ export async function POSt(req: Request) {
   const body = await req.text();
   // Clerk webhook verify kro
   const webhook = new Webhook(secret);
-  let event;
+  let event: WebhookEvent;
   try {
     // verify request
     event = webhook.verify(body, {
       'svix-id': svixId,
       'svix-timestamp': svixTimestamp,
       'svix-signature': svixSignature,
-    });
+    }) as WebhookEvent;
   } catch {
     return Response.json(
       {
