@@ -4,7 +4,7 @@ import { Webhook } from 'svix';
 import { env } from '../../../../config/env';
 import type { WebhookEvent } from '@clerk/backend';
 
-export async function POSt(req: Request) {
+export async function POST(req: Request) {
   // web hook secret
   const secret = env.CLERK_WEBHOOK_SECRET;
   if (!secret) {
