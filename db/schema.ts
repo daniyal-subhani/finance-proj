@@ -22,7 +22,7 @@ export const users = pgTable('users', {
 export const accounts = pgTable('accounts', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   userId: integer('user_id')
-    .references(() => usersTable.id, { onDelete: 'cascade' })
+    .references(() => users.id, { onDelete: 'cascade' })
     .notNull(),
   name: varchar('name', { length: 100 }).notNull(),
   type: varchar('type', { length: 50 }).notNull().default('CASH'),
@@ -48,8 +48,8 @@ export const userRelations = relations(accounts, ({ many }) => ({
 }));
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
-  user: one(usersTable, {
+  user: one(users, {
     fields: [accounts.userId],
-    references: [usersTable.id],
+    references: [users.id],
   }),
 }));

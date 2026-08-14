@@ -15,7 +15,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push ",
     "db:studio": "drizzle-kit studio",
-    "validate": "bun lint && bun format && bun format:check && bun typecheck && bun prepare"
+    "validate": "bun lint && bun format && bun format:check && bun typecheck && bun prepare",
+    "db:run": "bun db:generate && bun db:migrate && bun db:push && bun db:studio"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
