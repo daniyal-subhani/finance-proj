@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
             firstName: data.first_name,
             lastName: data.last_name,
             imageUrl: data.image_url,
+            isActive: true,
           })
           .onConflictDoUpdate({
             target: users.clerkUserId,
@@ -37,12 +38,21 @@ export async function POST(req: NextRequest) {
               lastName: data.last_name,
               imageUrl: data.image_url,
               updatedAt: new Date(),
+              isActive: true,
+              deletedAt: null,
             },
           });
         break;
       }
       case 'user.deleted': {
-        await db.delete(users).where(eq(users.clerkUserId, userIdClerk));
+        await db
+          .update(users)
+          .set({
+            deletedAt: new Date(),
+            isActive: false,
+            updatedAt: new Date(),
+          })
+          .where(eq(users.clerkUserId, userIdClerk));
         break;
       }
       default:
