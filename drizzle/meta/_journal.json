@@ -8,6 +8,13 @@
       "when": 1786712381649,
       "tag": "0000_stormy_havok",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1786901072581,
+      "tag": "0001_huge_misty_knight",
+      "breakpoints": true
     }
   ]
 }
