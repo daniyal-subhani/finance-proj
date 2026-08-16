@@ -22,7 +22,7 @@ export const currencyEnum = pgEnum('currency', [
   'USD', // US Dollar
   'EUR', // Euro
   'GBP', // British Pound
-  'PKR', // Pakistani Rupee (Lazmi)
+  'PKR', // Pakistani Rupee
   'INR', // Indian Rupee
   'AED', // UAE Dirham
   'SAR', // Saudi Riyal
@@ -31,7 +31,6 @@ export const currencyEnum = pgEnum('currency', [
   'AUD', // Australian Dollar
   'CHF', // Swiss Franc
   'CNY', // Chinese Yuan
-  'PKR', // Pakistani Rupees
 ]);
 
 /* ============================================================

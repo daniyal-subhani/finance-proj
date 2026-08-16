@@ -1,10 +1,33 @@
+CREATE TYPE "public"."account_type" AS ENUM('CASH', 'BANK', 'CREDIT_CARD', 'MOBILE_WALLET', 'INVESTMENT', 'OTHER');--> statement-breakpoint
 CREATE TYPE "public"."audit_action" AS ENUM('CREATE', 'UPDATE', 'DELETE', 'ARCHIVE', 'RESTORE');--> statement-breakpoint
 CREATE TYPE "public"."budget_period" AS ENUM('WEEKLY', 'MONTHLY', 'YEARLY', 'CUSTOM');--> statement-breakpoint
 CREATE TYPE "public"."category_type" AS ENUM('INCOME', 'EXPENSE');--> statement-breakpoint
-CREATE TYPE "public"."currency" AS ENUM('USD', 'EUR', 'GBP', 'PKR', 'INR', 'AED', 'SAR', 'JPY', 'CAD', 'AUD', 'CHF', 'CNY', 'PKR');--> statement-breakpoint
+CREATE TYPE "public"."currency" AS ENUM('USD', 'EUR', 'GBP', 'PKR', 'INR', 'AED', 'SAR', 'JPY', 'CAD', 'AUD', 'CHF', 'CNY');--> statement-breakpoint
 CREATE TYPE "public"."recurring_frequency" AS ENUM('DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY');--> statement-breakpoint
 CREATE TYPE "public"."transaction_status" AS ENUM('PENGING', 'COMPLETED', 'CANCELLED');--> statement-breakpoint
 CREATE TYPE "public"."transaction_type" AS ENUM('EXPENSE', 'INCOME');--> statement-breakpoint
+CREATE TABLE "accounts" (
+	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "accounts_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
+	"user_id" integer NOT NULL,
+	"name" varchar(100) NOT NULL,
+	"type" "account_type" DEFAULT 'CASH' NOT NULL,
+	"balance" numeric(14, 2) DEFAULT '0' NOT NULL,
+	"currency" "currency" DEFAULT 'PKR' NOT NULL,
+	"color" varchar(20),
+	"icon" varchar(50),
+	"is_default" boolean DEFAULT false NOT NULL,
+	"is_active" boolean DEFAULT true NOT NULL,
+	"plaid_account_id" varchar(255),
+	"plaid_item_id" varchar(255),
+	"mask" varchar(4),
+	"subtype" varchar(50),
+	"deleted_at" timestamp with time zone,
+	"archived_at" timestamp with time zone,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+	CONSTRAINT "accounts_plaid_account_id_unique" UNIQUE("plaid_account_id")
+);
+--> statement-breakpoint
 CREATE TABLE "attachments" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "attachments_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
 	"user_id" integer NOT NULL,
@@ -162,18 +185,25 @@ CREATE TABLE "transfers" (
 	CONSTRAINT "transfers_fee_non_negative_check" CHECK ("transfers"."fee" >= 0)
 );
 --> statement-breakpoint
-ALTER TABLE "accounts" DROP CONSTRAINT "accounts_currency_format_check";--> statement-breakpoint
-ALTER TABLE "accounts" ALTER COLUMN "balance" SET DATA TYPE numeric(14, 2);--> statement-breakpoint
-ALTER TABLE "accounts" ALTER COLUMN "balance" SET DEFAULT '0';--> statement-breakpoint
-ALTER TABLE "accounts" ALTER COLUMN "currency" SET DEFAULT 'PKR'::"public"."currency";--> statement-breakpoint
-ALTER TABLE "accounts" ALTER COLUMN "currency" SET DATA TYPE "public"."currency" USING "currency"::"public"."currency";--> statement-breakpoint
-ALTER TABLE "accounts" ADD COLUMN "plaid_account_id" varchar(255);--> statement-breakpoint
-ALTER TABLE "accounts" ADD COLUMN "plaid_item_id" varchar(255);--> statement-breakpoint
-ALTER TABLE "accounts" ADD COLUMN "mask" varchar(4);--> statement-breakpoint
-ALTER TABLE "accounts" ADD COLUMN "subtype" varchar(50);--> statement-breakpoint
-ALTER TABLE "accounts" ADD COLUMN "deleted_at" timestamp with time zone;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "plaid_access_token" text;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "plaid_item_id" varchar(255);--> statement-breakpoint
+CREATE TABLE "users" (
+	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "users_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
+	"clerk_user_id" varchar(255) NOT NULL,
+	"email" varchar(320) NOT NULL,
+	"first_name" varchar(100),
+	"last_name" varchar(100),
+	"image_url" text,
+	"plaid_access_token" text,
+	"plaid_item_id" varchar(255),
+	"is_active" boolean DEFAULT true NOT NULL,
+	"deleted_at" timestamp with time zone,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+	CONSTRAINT "users_clerk_user_id_unique" UNIQUE("clerk_user_id"),
+	CONSTRAINT "users_email_unique" UNIQUE("email"),
+	CONSTRAINT "users_plaid_item_id_unique" UNIQUE("plaid_item_id")
+);
+--> statement-breakpoint
+ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "attachments" ADD CONSTRAINT "attachments_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "attachments" ADD CONSTRAINT "attachments_transaction_id_transactions_id_fk" FOREIGN KEY ("transaction_id") REFERENCES "public"."transactions"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "audit_logs" ADD CONSTRAINT "audit_logs_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
@@ -196,6 +226,13 @@ ALTER TABLE "transfers" ADD CONSTRAINT "transfers_user_id_users_id_fk" FOREIGN K
 ALTER TABLE "transfers" ADD CONSTRAINT "transfers_from_account_id_accounts_id_fk" FOREIGN KEY ("from_account_id") REFERENCES "public"."accounts"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "transfers" ADD CONSTRAINT "transfers_to_account_id_accounts_id_fk" FOREIGN KEY ("to_account_id") REFERENCES "public"."accounts"("id") ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "transfers" ADD CONSTRAINT "transfers_transaction_id_transactions_id_fk" FOREIGN KEY ("transaction_id") REFERENCES "public"."transactions"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
+CREATE INDEX "accounts_user_id_idx" ON "accounts" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX "accounts_user_active_idx" ON "accounts" USING btree ("user_id","is_active");--> statement-breakpoint
+CREATE UNIQUE INDEX "accounts_user_id_name_unique_idx" ON "accounts" USING btree ("user_id","name");--> statement-breakpoint
+CREATE UNIQUE INDEX "accounts_one_default_per_user_idx" ON "accounts" USING btree ("user_id") WHERE "accounts"."is_default" = true;--> statement-breakpoint
+CREATE INDEX "accounts_plaid_account_idx" ON "accounts" USING btree ("plaid_account_id");--> statement-breakpoint
+CREATE INDEX "accounts_plaid_item_idx" ON "accounts" USING btree ("plaid_item_id");--> statement-breakpoint
+CREATE INDEX "accounts_deleted_at_idx" ON "accounts" USING btree ("deleted_at");--> statement-breakpoint
 CREATE INDEX "attachments_transaction_id_idx" ON "attachments" USING btree ("transaction_id");--> statement-breakpoint
 CREATE INDEX "attachments_user_id_idx" ON "attachments" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "audit_logs_user_id_idx" ON "audit_logs" USING btree ("user_id");--> statement-breakpoint
@@ -234,9 +271,6 @@ CREATE INDEX "transfers_to_account_idx" ON "transfers" USING btree ("to_account_
 CREATE INDEX "transfers_date_idx" ON "transfers" USING btree ("transfer_date");--> statement-breakpoint
 CREATE INDEX "transfers_transaction_id_idx" ON "transfers" USING btree ("transaction_id");--> statement-breakpoint
 CREATE INDEX "transfers_deleted_at_idx" ON "transfers" USING btree ("deleted_at");--> statement-breakpoint
-CREATE INDEX "accounts_plaid_account_idx" ON "accounts" USING btree ("plaid_account_id");--> statement-breakpoint
-CREATE INDEX "accounts_plaid_item_idx" ON "accounts" USING btree ("plaid_item_id");--> statement-breakpoint
-CREATE INDEX "accounts_deleted_at_idx" ON "accounts" USING btree ("deleted_at");--> statement-breakpoint
-CREATE INDEX "users_plaid_item_idx" ON "users" USING btree ("plaid_item_id");--> statement-breakpoint
-ALTER TABLE "accounts" ADD CONSTRAINT "accounts_plaid_account_id_unique" UNIQUE("plaid_account_id");--> statement-breakpoint
-ALTER TABLE "users" ADD CONSTRAINT "users_plaid_item_id_unique" UNIQUE("plaid_item_id");
+CREATE INDEX "users_is_active_idx" ON "users" USING btree ("is_active");--> statement-breakpoint
+CREATE INDEX "users_deleted_at_idx" ON "users" USING btree ("deleted_at");--> statement-breakpoint
+CREATE INDEX "users_plaid_item_idx" ON "users" USING btree ("plaid_item_id");
