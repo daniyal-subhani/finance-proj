@@ -102,6 +102,64 @@ export async function PATCH(
         status: 404,
       });
     }
+    return NextResponse.json(
+      { message: 'Account Updated Successfully!', updatedAccount },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error('Server Error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { accountId: string } },
+) {
+  try {
+    const { userId: clerkUserID } = await auth();
+    const accountId = Number(params.accountId);
+    if (!clerkUserID) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+    if (isNaN(accountId)) {
+      return NextResponse.json(
+        { error: 'Invalid Account ID' },
+        { status: 400 },
+      );
+    }
+
+    const user_id = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.clerkUserId, clerkUserID));
+    const currentUserId = user_id[0].id;
+    if (user_id.length === 0) {
+      return NextResponse.json(
+        { error: 'User not registered in database' },
+        { status: 404 },
+      );
+    }
+    const [deletedAccount] = await db
+      .delete(accounts)
+      .where(
+        and(eq(accounts.id, accountId), eq(accounts.userId, currentUserId)),
+      )
+      .returning();
+    if (!deletedAccount) {
+      return NextResponse.json(
+        { error: 'Account not found or access denied' },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(
+      { message: 'Account deleted successfully', deletedAccount },
+      { status: 200 },
+    );
   } catch (error) {
     console.error('Server Error:', error);
     return NextResponse.json(
