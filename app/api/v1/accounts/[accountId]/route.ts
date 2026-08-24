@@ -1,5 +1,6 @@
 import { db } from '@/db';
 import { accounts, users } from '@/db/schema';
+import { accountSchema } from '@/types/accounts.types';
 import { auth } from '@clerk/nextjs/server';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -51,6 +52,60 @@ export async function GET(
     console.error('Server Error:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { accountId: string } },
+) {
+  try {
+    const { userId: userIdClerk } = await auth();
+    if (!userIdClerk) return new Response('Unauthorized', { status: 401 });
+    const user_id = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.clerkUserId, userIdClerk));
+    if (user_id.length === 0) {
+      return NextResponse.json(
+        { error: 'User not registered in local database' },
+        { status: 404 },
+      );
+    }
+    const body = await request.json();
+    const validation = accountSchema.safeParse(body);
+    if (!validation.success) {
+      return Response.json(validation.error.format(), { status: 400 });
+    }
+    const accountId = Number(params.accountId);
+    if (isNaN(accountId)) {
+      return NextResponse.json(
+        { error: 'Invalid Account ID' },
+        { status: 400 },
+      );
+    }
+    const currentUserId = user_id[0].id;
+    const [updatedAccount] = await db
+      .update(accounts)
+      .set({
+        ...validation.data,
+        updatedAt: new Date(),
+      })
+      .where(
+        and(eq(accounts.id, accountId), eq(accounts.userId, currentUserId)),
+      )
+      .returning();
+    if (!updatedAccount) {
+      return NextResponse.json('Account not found or access denied', {
+        status: 404,
+      });
+    }
+  } catch (error) {
+    console.error('Server Error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
       { status: 500 },
     );
   }
