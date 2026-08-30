@@ -12,5 +12,8 @@ export async function getCurrentUser() {
   const user = await db.query.users.findFirst({
     where: eq(users.clerkUserId, clerkUserId),
   });
-  return user ?? null;
+  if (!user) {
+    throw new Error('USER_NOT_FOUND');
+  }
+  return user;
 }

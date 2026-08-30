@@ -7,23 +7,22 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const evt = (await verifyWebhook(req)) as WebhookEvent;
-    const { data, type } = evt;
-    const { id: userIdClerk } = data;
-    if (!userIdClerk) {
-      throw new Error('Missing clerkUserId in webhook payload');
-    }
 
-    switch (type) {
+    switch (evt.type) {
       case 'user.created':
       case 'user.updated': {
-        const userEmailClerk = data.email_addresses[0]?.email_address || '';
-        if (!userEmailClerk) {
-          throw new Error('Missing email Address in webhook payload');
+        const data = evt.data;
+        const clerkUserId = data.id;
+        const userEmailClerk = data.email_addresses[0]?.email_address;
+        if (!clerkUserId || !userEmailClerk) {
+          throw new Error(
+            'Missing clerkId or email Address in webhook payload',
+          );
         }
         await db
           .insert(users)
           .values({
-            clerkUserId: userIdClerk,
+            clerkUserId,
             email: userEmailClerk,
             firstName: data.first_name,
             lastName: data.last_name,
@@ -44,19 +43,44 @@ export async function POST(req: NextRequest) {
           });
         break;
       }
+      case 'session.created': {
+        const data = evt.data;
+        const clerkUserId = data.id;
+        if (!clerkUserId) {
+          throw new Error('Missing user_id in session payload');
+        }
+        const existingUser = await db.query.users.findFirst({
+          where: eq(users.clerkUserId, clerkUserId),
+        });
+        if (!existingUser) {
+          await db
+            .insert(users)
+            .values({
+              clerkUserId,
+              email: '',
+              isActive: true,
+            })
+            .onConflictDoNothing();
+        }
+        break;
+      }
       case 'user.deleted': {
-        await db
-          .update(users)
-          .set({
-            deletedAt: new Date(),
-            isActive: false,
-            updatedAt: new Date(),
-          })
-          .where(eq(users.clerkUserId, userIdClerk));
+        const data = evt.data;
+        const clerkUserId = data.id;
+        if (clerkUserId) {
+          await db
+            .update(users)
+            .set({
+              deletedAt: new Date(),
+              isActive: false,
+              updatedAt: new Date(),
+            })
+            .where(eq(users.clerkUserId, clerkUserId));
+        }
         break;
       }
       default:
-        console.log(`Unhandled event type: ${type}`);
+        console.log(`Unhandled event type: ${evt.type}`);
     }
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (err: unknown) {

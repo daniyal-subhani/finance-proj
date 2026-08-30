@@ -1,5 +1,6 @@
 import { db } from '@/db';
 import { accounts, users } from '@/db/schema';
+import { requireUser } from '@/lib/auth/require-user';
 import { accountSchema } from '@/types/accounts.types';
 import { auth } from '@clerk/nextjs/server';
 import { and, eq } from 'drizzle-orm';
@@ -7,25 +8,12 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { accountId: string } },
+  { params }: { params: Promise<{ accountId: string }> },
 ) {
   try {
-    const { userId: clerk_user_id } = await auth();
-    if (!clerk_user_id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const userResult = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.clerkUserId, clerk_user_id));
-    if (userResult.length === 0) {
-      return NextResponse.json(
-        { error: 'User not registered in local database' },
-        { status: 404 },
-      );
-    }
-    const internalUserId = userResult[0].id;
-    const accountId = parseInt(params.accountId, 10);
+    const user = await requireUser();
+    const resolvedParams = await params;
+    const accountId = parseInt(resolvedParams.accountId, 10);
     if (isNaN(accountId)) {
       return NextResponse.json(
         { error: 'Invalid Account ID format' },
@@ -35,9 +23,7 @@ export async function GET(
     const userAccounts = await db
       .select({ id: accounts.id, userId: accounts.userId })
       .from(accounts)
-      .where(
-        and(eq(accounts.id, accountId), eq(accounts.userId, internalUserId)),
-      );
+      .where(and(eq(accounts.id, accountId), eq(accounts.userId, user.id)));
     if (userAccounts.length === 0) {
       return NextResponse.json(
         { error: 'Account not found or access denied' },
@@ -59,43 +45,30 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { accountId: string } },
+  { params }: { params: Promise<{ accountId: string }> },
 ) {
   try {
-    const { userId: userIdClerk } = await auth();
-    if (!userIdClerk) return new Response('Unauthorized', { status: 401 });
-    const user_id = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.clerkUserId, userIdClerk));
-    if (user_id.length === 0) {
-      return NextResponse.json(
-        { error: 'User not registered in local database' },
-        { status: 404 },
-      );
-    }
+    const user = await requireUser();
     const body = await request.json();
     const validation = accountSchema.safeParse(body);
     if (!validation.success) {
       return Response.json(validation.error.format(), { status: 400 });
     }
-    const accountId = Number(params.accountId);
+    const resolvedParams = await params;
+    const accountId = parseInt(resolvedParams.accountId, 10);
     if (isNaN(accountId)) {
       return NextResponse.json(
         { error: 'Invalid Account ID' },
         { status: 400 },
       );
     }
-    const currentUserId = user_id[0].id;
     const [updatedAccount] = await db
       .update(accounts)
       .set({
         ...validation.data,
         updatedAt: new Date(),
       })
-      .where(
-        and(eq(accounts.id, accountId), eq(accounts.userId, currentUserId)),
-      )
+      .where(and(eq(accounts.id, accountId), eq(accounts.userId, user.id)))
       .returning();
     if (!updatedAccount) {
       return NextResponse.json('Account not found or access denied', {
@@ -117,11 +90,12 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { accountId: string } },
+  { params }: { params: Promise<{ accountId: string }> },
 ) {
   try {
-    const { userId: clerkUserID } = await auth();
-    const accountId = Number(params.accountId);
+    const { userId: clerkUserID } = await auth.protect();
+    const resolvedParams = await params;
+    const accountId = parseInt(resolvedParams.accountId, 10);
     if (!clerkUserID) {
       return new Response('Unauthorized', { status: 401 });
     }
