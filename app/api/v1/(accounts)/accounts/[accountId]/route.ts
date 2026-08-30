@@ -1,8 +1,7 @@
 import { db } from '@/db';
-import { accounts, users } from '@/db/schema';
+import { accounts } from '@/db/schema';
 import { requireUser } from '@/lib/auth/require-user';
 import { accountSchema } from '@/types/accounts.types';
-import { auth } from '@clerk/nextjs/server';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -93,10 +92,10 @@ export async function DELETE(
   { params }: { params: Promise<{ accountId: string }> },
 ) {
   try {
-    const { userId: clerkUserID } = await auth.protect();
+    const user = await requireUser();
     const resolvedParams = await params;
     const accountId = parseInt(resolvedParams.accountId, 10);
-    if (!clerkUserID) {
+    if (!user.id) {
       return new Response('Unauthorized', { status: 401 });
     }
     if (isNaN(accountId)) {
@@ -106,22 +105,9 @@ export async function DELETE(
       );
     }
 
-    const user_id = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.clerkUserId, clerkUserID));
-    const currentUserId = user_id[0].id;
-    if (user_id.length === 0) {
-      return NextResponse.json(
-        { error: 'User not registered in database' },
-        { status: 404 },
-      );
-    }
     const [deletedAccount] = await db
       .delete(accounts)
-      .where(
-        and(eq(accounts.id, accountId), eq(accounts.userId, currentUserId)),
-      )
+      .where(and(eq(accounts.id, accountId), eq(accounts.userId, user.id)))
       .returning();
     if (!deletedAccount) {
       return NextResponse.json(

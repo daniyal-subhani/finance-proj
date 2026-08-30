@@ -1,6 +1,6 @@
 import { db } from '@/db';
-import { users } from '@/db/schema';
-import { auth } from '@clerk/nextjs/server';
+import { accounts, transactions } from '@/db/schema';
+import { requireUser } from '@/lib/auth/require-user';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -9,23 +9,13 @@ export async function GET(
   { params }: { params: Promise<{ accountId: string; transactionId: string }> },
 ) {
   try {
-    const { userId: clerk_user_id } = await auth.protect();
+    const user = await requireUser();
     const { requestedUserId } = await req.json();
-    const { accountId, transactionId } = await params;
-    if (!clerk_user_id) {
+    const resolveParams = await params;
+    const accountId = parseInt(resolveParams.accountId, 10);
+    const transactionId = parseInt(resolveParams.transactionId, 10);
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const user = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(
-        and(
-          eq(users.clerkUserId, clerk_user_id),
-          eq(users.id, requestedUserId),
-        ),
-      );
-    if (user.length === 0) {
-      return NextResponse.json({ error: 'User Not found' }, { status: 400 });
     }
     if (!accountId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -33,6 +23,36 @@ export async function GET(
     if (!transactionId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    if (user.id !== requestedUserId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const account = await db
+      .select({ id: accounts.id })
+      .from(accounts)
+      .where(and(eq(accounts.id, accountId), eq(accounts.userId, user.id)));
+    if (!account || account.length === 0) {
+      return NextResponse.json(
+        { error: 'Invalid Credientials' },
+        { status: 400 },
+      );
+    }
+    const transaction = await db
+      .select({ id: transactions })
+      .from(transactions)
+      .where(
+        and(
+          eq(transactions.id, transactionId),
+          eq(transactions.accountId, accountId),
+          eq(transactions.userId, user.id),
+        ),
+      );
+    if (!transaction || transaction.length === 0) {
+      return NextResponse.json(
+        { error: 'Invalid Credientials' },
+        { status: 400 },
+      );
+    }
+    return NextResponse.json({ sucess: true, transaction }, { status: 200 });
   } catch (error) {
     console.error('Server Error:', error);
     return NextResponse.json(
